@@ -131,4 +131,4 @@ EMAIL_HOST_USER = 'a.elmoussati@ump.ac.ma'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = '587'
 EMAIL_USE_TLS = True
-EMAIL_HOST_PASSWORD = 'Thez@@121974'
+EMAIL_HOST_PASSWORD = '************'
