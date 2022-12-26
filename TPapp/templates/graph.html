@@ -1,0 +1,924 @@
+<head>
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
+
+
+
+
+
+</head>
+<body class="white-content">
+{% block content %}
+
+  <div class="wrapper">
+      <div class="sidebar">
+      <div class="sidebar-wrapper ps">
+        <div class="logo">
+          <a href="/" class="simple-text logo-mini">
+            DB
+          </a>
+          <a href="/" class="simple-text logo-normal">
+            Django Black
+          </a>
+        </div>
+
+        <ul class="nav">
+
+
+          <li class=" active ">
+            <a href="/admin">
+              <i class="tim-icons icon-chart-pie-36"></i>
+              <p>Page Administration</p>
+            </a>
+          </li>
+          <li class="">
+            <a href="/graph_all">
+              <i class="tim-icons icon-atom"></i>
+              <p>Tout les donnees</p>
+            </a>
+          </li>
+          <li class="">
+            <a href="/graph_24h">
+              <i class="tim-icons icon-pin"></i>
+              <p>Donnees 24 heures</p>
+            </a>
+          </li>
+          <li class="">
+            <a href="/graph_mois">
+              <i class="tim-icons icon-bell-55"></i>
+              <p>Donnees un mois</p>
+            </a>
+          </li>
+          <li class="">
+            <a href="/graph_heure">
+              <i class="tim-icons icon-single-02"></i>
+              <p>Donnees une heure</p>
+            </a>
+          </li>
+          <li class="">
+            <a href="/api/post">
+              <i class="tim-icons icon-puzzle-10"></i>
+              <p>Ajouter une valeur manuellement</p>
+            </a>
+          </li>
+          <li class="">
+            <a href="/api/list">
+              <i class="tim-icons icon-align-center"></i>
+              <p>Afficher toutes les valeurs</p>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'logout'%}?next={{request.path}}">
+              <i class="tim-icons icon-button-power"></i>
+              <p>Logout</p>
+            </a>
+          </li>
+
+
+        </ul>
+
+      <div class="ps__rail-x" style="left: 0px; bottom: 0px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 0px; right: 0px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div></div></div>
+    </div>
+
+          <div class="main-panel ps ps--active-y">
+
+
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-lg navbar-absolute navbar-transparent">
+        <div class="container-fluid">
+          <div class="navbar-wrapper">
+            <div class="navbar-toggle d-inline">
+              <button type="button" class="navbar-toggler">
+                <span class="navbar-toggler-bar bar1"></span>
+                <span class="navbar-toggler-bar bar2"></span>
+                <span class="navbar-toggler-bar bar3"></span>
+              </button>
+            </div>
+            <a class="navbar-brand" href="javascript:void(0)">
+              DS18B20 SENSOR
+            </a>
+          </div>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-bar navbar-kebab"></span>
+            <span class="navbar-toggler-bar navbar-kebab"></span>
+            <span class="navbar-toggler-bar navbar-kebab"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navigation">
+
+            <ul class="navbar-nav ml-auto">
+
+
+              <li class="search-bar input-group">
+                <button class="btn btn-link" id="search-button" data-toggle="modal" data-target="#searchModal"><i class="tim-icons icon-zoom-split"></i>
+                  <span class="d-lg-none d-md-block">Search</span>
+                </button>
+              </li>
+              <li class="dropdown nav-item">
+                <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+                  <div class="photo">
+                    <img src="https://appsrv1-147a1.kxcdn.com/black-dashboard/img/anime3.png" alt="Profile Photo">
+                  </div>
+                  <b class="caret d-none d-lg-block d-xl-block"></b>
+                  <p class="d-lg-none">
+                    Log out
+                  </p>
+                </a>
+                <ul class="dropdown-menu dropdown-navbar">
+                  <li class="nav-link"><a href="/page-user.html" class="nav-item dropdown-item">Profile</a></li>
+                  <li class="dropdown-divider"></li>
+                  <li class="nav-link">       {% if user.is_authenticated %}
+     <li>User: {{ user.get_username }}</li>
+     <li><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>
+   {% else %}
+     <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
+   {% endif %}</li>
+                </ul>
+              </li>
+              <li class="separator d-lg-none"></li>
+
+
+            </ul>
+
+          </div>
+        </div>
+      </nav>
+      <div class="modal modal-search fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="searchModal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="SEARCH">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <i class="tim-icons icon-simple-remove"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End Navbar -->
+
+
+      <div class="content">
+
+
+
+    <div class="row">
+
+      <div class="col-12">
+
+
+<div class="card card-chart" >
+    <div class="card-header ">
+      <div class="row">
+        <div class="col-sm-6 text-left">
+
+
+
+
+</h2>
+        </div>
+        <div class="col-sm-6">
+              <div class="btn-group btn-group-toggle float-right" data-toggle="buttons">
+            <div class="btn-group btn-group-toggle float-right" data-toggle="buttons">
+            <label class="btn btn-sm btn-primary btn-simple " id="10">
+              <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block" onclick="location.href='graph_24h';">24 Heures</span>
+              <span class="d-block d-sm-none">
+                <i class="tim-icons icon-gift-2"></i>
+              </span>
+            </label>
+            <label class="btn btn-sm btn-primary btn-simple" id="12">
+              <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block" onclick="location.href='graph_heure';">1 Heure</span>
+              <span class="d-block d-sm-none">
+                <i class="tim-icons icon-gift-2"></i>
+              </span>
+            </label>
+            <label class="btn btn-sm btn-primary btn-simple" id="13">
+              <input type="radio" class="d-none d-sm-none" name="options">
+              <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block" onclick="location.href='graph_mois';">un mois</span>
+              <span class="d-block d-sm-none">
+                <i class="tim-icons icon-gift-2"></i>
+              </span>
+            </label>
+            <label class="btn btn-sm btn-primary btn-simple" id="14">
+              <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block" onclick="location.href='graph_all';">Tout</span>
+              <span class="d-block d-sm-none">
+                <i class="tim-icons icon-tap-02"></i>
+              </span>
+            </label>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+
+<canvas id="myChart" width="400" height="250"></canvas>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+<script>
+         var canvas = document.getElementById('myChart');
+        window.chartColors = {
+            red: 'rgb(255, 209, 204)',
+            orange: 'rgb(255, 159, 64)',
+            yellow: 'rgb(255, 205, 86)',
+            green: 'rgb(212, 249, 165)',
+            blue: 'rgb(204, 255, 253)',
+            purple: 'rgb(153, 102, 255)',
+            grey: 'rgb(201, 203, 207)'
+        };
+        var myLineChart = new Chart(canvas,{type: 'line',data: {labels: {{labels|safe}},datasets: [{label: 'Temperature',fill: false,backgroundColor: window.chartColors.purpule,borderColor: window.chartColors.purple,data: {{data|safe}}}]},options: {responsive: true,title: {display: true,text: 'Temperature C'},backgroundRules: [{backgroundColor: window.chartColors.blue,yAxisSegement: 10}, {backgroundColor: window.chartColors.green,yAxisSegement: 20}, {backgroundColor: window.chartColors.red,yAxisSegement: Infinity                    }],                    scales: {                        yAxes: [{                            ticks: {                                beginAtZero: true,                                stepSize: 5                            }                        }]                    }                },                plugins: [{                    beforeDraw: function (chart) {                        var ctx = chart.chart.ctx;                        var ruleIndex = 0;                        var rules = chart.chart.options.backgroundRules;                        var yaxis = chart.chart.scales["y-axis-0"];                        var xaxis = chart.chart.scales["x-axis-0"];                        var partPercentage = 1 / (yaxis.ticksAsNumbers.length - 1);                        for (var i = yaxis.ticksAsNumbers.length - 1; i > 0; i--) {                            if (yaxis.ticksAsNumbers[i] < rules[ruleIndex].yAxisSegement) {ctx.fillStyle = rules[ruleIndex].backgroundColor;ctx.fillRect(xaxis.left, yaxis.top + ((i - 1) * (yaxis.height * partPercentage)), xaxis.width, yaxis.height * partPercentage);} else {ruleIndex++;i++;}}}}]});</script>
+      
+
+	</div>
+        <div class="row">
+
+                <div class="col-lg-6 col-md-12" >
+          <div class="card " >
+            <div class="card-header">
+            </div>
+            <div class="card-body" >
+                            <div>
+              <canvas id="chartJSContainer" width="600" height="400"></canvas>
+              <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js" integrity="sha512-hZf9Qhp3rlDJBvAKvmiG+goaaKRZA6LKUO35oK6EsM0/kjPK32Yw7URqrq3Q+Nvbbt8Usss+IekL7CRn83dYmw==" crossorigin="anonymous"></script>
+	          <script>
+var ctx = document.getElementById('chartJSContainer').getContext('2d');
+var myChart = new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: {{ labels|safe }},
+    datasets: [
+
+      {
+        label: 'Median',
+        data: {{ vbat|safe }},
+					borderColor: ["#f459bd"],
+			        fill: false,
+			        lineTension: 0 ,
+			        label:'Tension de la betterie (MV)',
+			        pointHitRadius: 5 ,
+			        showLine: true,
+      }
+    ]
+  },
+  options: {
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: true
+        }
+      }],
+      xAxes: [{
+        scaleLabel: {
+          display: true,
+          labelString: ''
+        }
+      }],
+      pointLabels: {
+        fontStyle: 'bold',
+      },
+      plugins: {
+        filler: {
+          propagate: false
+        }
+      },
+    }
+  }
+});
+</script>
+              </div>
+
+            </div>
+
+          </div>
+
+    </div>
+          <div class="col-lg-6 col-md-12">
+ <div class="card card-chart">
+                       <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+        <style type="text/css" src="gauge.css">
+        .chart-gauge
+			{
+			  width: 300px;
+			  margin: 20px auto
+			 }
+			.chart-first
+			{
+				fill: #cbfcfd;
+			}
+			.chart-second
+			{
+				fill: #9FBD35;
+			}
+            .chart-third
+            {
+                fill: #FB3033;
+            }
+
+			.needle, .needle-center
+			{
+				fill: #d356d9;
+			}
+            .text {
+                color: "#a7a8af";
+                font-size: 16px;
+            }
+
+
+			svg {
+			  font: 10px sans-serif;
+			}
+
+
+		</style>
+                       <div class="chart-gauge">
+                         <script>
+
+                           var name = "";
+
+var value = {{last}}+20;
+
+
+var gaugeMaxValue = 80;
+
+// données à calculer
+var percentValue = value / gaugeMaxValue;
+
+////////////////////////
+
+var needleClient;
+
+
+
+(function(){
+
+var barWidth, chart, chartInset, degToRad, repaintGauge,
+    height, margin, numSections, padRad, percToDeg, percToRad,
+    percent, radius, sectionIndx, svg, totalPercent, width;
+
+
+
+  percent = percentValue;
+
+  numSections = 1;
+  sectionPerc = 1 / numSections / 2;
+  padRad = 0.025;
+  chartInset = 10;
+
+  // Orientation of gauge:
+  totalPercent = .75;
+
+  el = d3.select('.chart-gauge');
+
+  margin = {
+    top: 40,
+    right: 10,
+    bottom: 10,
+    left: 10
+  };
+
+  width = el[0][0].offsetWidth - margin.left - margin.right;
+  height = width;
+  radius = Math.min(width, height) / 2;
+  barWidth = 40 * width / 300;
+
+
+
+  //Utility methods
+
+  percToDeg = function(perc) {
+    return perc * 360;
+  };
+
+  percToRad = function(perc) {
+    return degToRad(percToDeg(perc));
+  };
+
+  degToRad = function(deg) {
+    return deg * Math.PI / 180;
+  };
+
+  // Create SVG element
+  svg = el.append('svg').attr('width', width + margin.left + margin.right).attr('height', 140 + margin.top + margin.bottom);
+
+  // Add layer for the panel
+  chart = svg.append('g').attr('transform', "translate(" + ((width + margin.left) / 2) + ", " + ((height + margin.top) / 2) + ")");
+
+
+  chart.append('path').attr('class', "arc chart-first");
+  chart.append('path').attr('class', "arc chart-second");
+  chart.append('path').attr('class', "arc chart-third");
+
+
+  arc3 = d3.svg.arc().outerRadius(radius - chartInset).innerRadius(radius - chartInset - barWidth)
+  arc2 = d3.svg.arc().outerRadius(radius - chartInset).innerRadius(radius - chartInset - barWidth)
+  arc1 = d3.svg.arc().outerRadius(radius - chartInset).innerRadius(radius - chartInset - barWidth)
+
+  repaintGauge = function ()
+  {
+    perc = 0.5;
+    var next_start = totalPercent;
+    arcStartRad = percToRad(next_start);
+    arcEndRad = arcStartRad + percToRad(perc / 5);
+    next_start += perc / 5;
+
+
+    arc1.startAngle(arcStartRad).endAngle(arcEndRad);
+
+    arcStartRad = percToRad(next_start);
+    arcEndRad = arcStartRad + percToRad(perc / 5);
+    next_start += perc / 5;
+
+    arc2.startAngle(arcStartRad + padRad).endAngle(arcEndRad);
+
+    arcStartRad = percToRad(next_start);
+    arcEndRad = arcStartRad + percToRad(perc / 1.67);
+
+    arc3.startAngle(arcStartRad + padRad).endAngle(arcEndRad);
+
+    chart.select(".chart-first").attr('d', arc1);
+    chart.select(".chart-second").attr('d', arc2);
+    chart.select(".chart-third").attr('d', arc3);
+
+
+  }
+/////////
+
+    var dataset = [{metric:name, value: value}]
+
+    var texts = svg.selectAll("text")
+                .data(dataset)
+                .enter();
+
+    texts.append("text")
+         .text(function(){
+              return dataset[0].metric;
+         })
+         .attr('id', "Name")
+         .attr('transform', "translate(" + ((width + margin.left) / 6) + ", " + ((height + margin.top) / 1.5) + ")")
+         .attr("font-size",25)
+         .style("fill", "#000000");
+
+
+   var trX = 180 - 170 * Math.cos(percToRad(percent / 2));
+var trY = 195 - 170 * Math.sin(percToRad(percent / 2));
+// (180, 195) are the coordinates of the center of the gauge.
+
+displayValue = function() {
+                texts.append("text")
+                    .text(function(){
+                        return dataset[0].value-20;
+                    })
+                    .attr('id', "Value")
+                    .attr('transform', "translate(" + trX + ", " + trY+ ")")
+                    .attr("font-size",18)
+                    .style("fill", '#1d253b');
+            }
+
+
+
+    texts.append("text")
+        .text(function(){
+            return -20;
+        })
+        .attr('id', 'scale0')
+        .attr('transform', "translate(" + ((width + margin.left) / 100 ) + ", " + ((height + margin.top) / 2) + ")")
+        .attr("font-size", 15)
+        .style("fill", "#1d253b");
+
+    texts.append("text")
+        .text(function(){
+            return gaugeMaxValue/2;
+        })
+        .attr('id', 'scale10')
+        .attr('transform', "translate(" + ((width + margin.left) / 2 ) + ", " + ((height + margin.top) / 30) + ")")
+        .attr("font-size", 15)
+        .style("fill", "#1d253b");
+
+
+    texts.append("text")
+        .text(function(){
+            return gaugeMaxValue;
+        })
+        .attr('id', 'scale20')
+        .attr('transform', "translate(" + ((width + margin.left) / 1.03 ) + ", " + ((height + margin.top) / 2) + ")")
+        .attr("font-size", 15)
+        .style("fill", "#1d253b");
+
+  var Needle = (function() {
+
+    //Helper function that returns the `d` value for moving the needle
+    var recalcPointerPos = function(perc) {
+      var centerX, centerY, leftX, leftY, rightX, rightY, thetaRad, topX, topY;
+      thetaRad = percToRad(perc / 2);
+      centerX = 0;
+      centerY = 0;
+      topX = centerX - this.len * Math.cos(thetaRad);
+      topY = centerY - this.len * Math.sin(thetaRad);
+      leftX = centerX - this.radius * Math.cos(thetaRad - Math.PI / 2);
+      leftY = centerY - this.radius * Math.sin(thetaRad - Math.PI / 2);
+      rightX = centerX - this.radius * Math.cos(thetaRad + Math.PI / 2);
+      rightY = centerY - this.radius * Math.sin(thetaRad + Math.PI / 2);
+
+
+        return "M " + leftX + " " + leftY + " L " + topX + " " + topY + " L " + rightX + " " + rightY;
+
+
+
+
+    };
+
+    function Needle(el) {
+      this.el = el;
+      this.len = width / 2.5;
+      this.radius = this.len / 8;
+    }
+
+    Needle.prototype.render = function() {
+      this.el.append('circle').attr('class', 'needle-center').attr('cx', 0).attr('cy', 0).attr('r', this.radius);
+
+
+
+
+      return this.el.append('path').attr('class', 'needle').attr('id', 'client-needle').attr('d', recalcPointerPos.call(this, 0));
+
+
+    };
+
+    Needle.prototype.moveTo = function(perc) {
+      var self,
+          oldValue = this.perc || 0;
+
+      this.perc = perc;
+      self = this;
+
+      // Reset pointer position
+      this.el.transition().delay(100).ease('quad').duration(200).select('.needle').tween('reset-progress', function() {
+        return function(percentOfPercent) {
+          var progress = (1 - percentOfPercent) * oldValue;
+
+
+
+
+          repaintGauge(progress);
+          return d3.select(this).attr('d', recalcPointerPos.call(self, progress));
+        };
+      });
+
+      this.el.transition().delay(300).ease('bounce').duration(1500).select('.needle').tween('progress', function() {
+        return function(percentOfPercent) {
+          var progress = percentOfPercent * perc;
+
+          repaintGauge(progress);
+          return d3.select(this).attr('d', recalcPointerPos.call(self, progress));
+        };
+      });
+
+    };
+
+
+    return Needle;
+
+  })();
+
+
+
+  needle = new Needle(chart);
+  needle.render();
+  needle.moveTo(percent);
+
+  setTimeout(displayValue, 1350);
+
+
+
+})();
+                         </script>
+                             <style>
+      .blink {
+        animation: blinker 0.6s linear infinite;
+        color: #1c87c9;
+      }
+      @keyframes blinker {
+        50% {
+          opacity: 0;
+        }
+      }
+
+      }
+    </style>
+                         <h4 id='if-part' class="blink" style='visibility: hidden;color:red ;' >Derniere valeur enregistree : {{last}}°C !!! c'est la valeur numero {{n}} hors normal</h4>
+                          <h4 id='else-part' style='visibility: hidden; color:green'; >La derniere valeur enregistree : {{last}} °C</h4>
+
+                          <script>
+                              var node;
+                              if({{last}}>20) {
+                                  node = document.getElementById('if-part');
+                              }
+                              else {
+                                  node = document.getElementById('else-part');
+                              }
+                              node.style.visibility = 'visible';
+                          </script>
+                       </div>
+
+
+
+		<script type="text/javascript" src="./gaugeClient.js">
+
+
+
+        </script>
+		<script type="text/javascript" src="./labels.js">
+
+        </script>
+    <script src="https://d3js.org/d3.v3.min.js" charset="utf-8">
+
+    </script>
+              </div>
+          </div>
+    </div>
+</div>
+      </div></div>
+        <div class="row">
+      <div class="col-lg-4">
+        <div class="card card-chart">
+          <div class="card-header">
+            <h5 class="card-category">Statestiques des données</h5>
+          </div>
+          <div class="card-body">
+              <h4>temp min {{vmin}} °C</h4>
+            <h4>temp moy {{vavg}} °C</h4>
+            <h4>temp max {{vmax}} °C</h4>
+            <h4>nbr d'enregistrement: {{count}}</h4>
+          </div>
+
+        </div>
+      </div>
+
+
+      <div class="col-lg-4">
+        <div class="card card-chart">
+          <div class="card-header">
+            <h5 class="card-category">La carte envoie les donnees tout les 20 min</h5>
+            <h3 class="card-title"><i class="tim-icons icon-delivery-fast text-info"></i> {{count}}</h3>
+          </div>
+          <div class="card-body">
+             <div class="table-responsive" style='height:200px;overflow:auto;margin-top: 20px;'>
+                        <div class="table-full-width table-responsive ps ps--active-y ps--scrolling-y">
+              <table class="table" id="100">
+              <thead class=" text-primary">
+                <tr>
+                  <th>
+                    Temp
+                  </th>
+                    <th>
+                    Tension
+                  </th>
+                  <th>
+                    date
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+				  <tr>
+				    {% for row in alldata %}
+				    <tr>
+				        {% for col in row %}
+				        <td>{{ col }}</td>
+				        {% endfor %}
+				    </tr>
+				    {% endfor %}
+			  </tbody>
+            </table>
+            <div class="ps__rail-x" style="left: 0px; bottom: 0px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 0px; height: 410px; right: 0px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 327px;"></div></div></div>
+          </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="card card-chart">
+          <div class="card-header">
+              {% if user.is_authenticated %}
+            <h3 class="card-title"><i class="tim-icons icon-send text-success"></i>Téléchargement des données</h3>
+              <h5 class="card-category"><a href="psg">Telecharger au format CSV</a></h5>
+            <h5 class="card-category"><a href="{% url 'export_xls' %}">Telecharger au format XLS</a></h5>
+            <h5 class="card-category"><a href="/report">Telecharger au format PDF</a></h5>
+              {% else %}
+     <li><a href="{% url 'login'%}?next={{request.path}}">vous devez etre connecter pour voir cette partie</a></li>
+   {% endif %}
+          </div>
+          <div class="card-body">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<footer class="footer">
+        <div class="container-fluid">
+          <ul class="nav">
+            <li class="nav-item">
+                DS18B20
+            </li>
+          </ul>
+          <div class="copyright">
+            © Aghzar Mostafa and Latif Mohammed Project 2021
+          </div>
+        </div>
+      </footer>
+
+
+
+    <div class="ps__rail-x" style="left: 0px; bottom: 0px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 0px; right: 0px; height: 579px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 225px;"></div></div></div>
+
+  </div>
+
+
+  <div class="fixed-plugin">
+    <div class="dropdown show-dropdown">
+      <a href="#" data-toggle="dropdown" aria-expanded="false">
+        <i class="fa fa-cog fa-2x"> </i>
+      </a>
+      <ul class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(-231px, 39px, 0px); top: 0px; left: 0px; will-change: transform;">
+        <li class="header-title"> Sidebar Background</li>
+        <li class="adjustments-line">
+          <a href="javascript:void(0)" class="switch-trigger background-color">
+            <div class="badge-colors text-center">
+              <span class="badge filter badge-primary active" data-color="primary"></span>
+              <span class="badge filter badge-info" data-color="blue"></span>
+              <span class="badge filter badge-success" data-color="green"></span>
+            </div>
+            <div class="clearfix"></div>
+          </a>
+        </li>
+        <li class="adjustments-line text-center color-change">
+          <span class="color-label">LIGHT MODE</span>
+          <span class="badge light-badge mr-2"></span>
+          <span class="badge dark-badge ml-2"></span>
+          <span class="color-label">DARK MODE</span>
+        </li>
+        <li class="button-container">
+          <a href="https://github.com/app-generator/django-dashboard-black" target="_blank" class="btn btn-default btn-block btn-round">
+            Source Code
+          </a>
+        </li>
+        <li class="header-title">
+          Modified by Aghzar Mostafa and Latif Mohammed
+        </li>
+        <li>
+          <br>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+
+
+
+  <!--   Core JS Files   -->
+  <script src="https://appsrv1-147a1.kxcdn.com/black-dashboard/js/core/jquery.min.js"></script>
+  <script src="https://appsrv1-147a1.kxcdn.com/black-dashboard/js/core/popper.min.js"></script>
+  <script src="https://appsrv1-147a1.kxcdn.com/black-dashboard/js/core/bootstrap.min.js"></script>
+  <script src="https://appsrv1-147a1.kxcdn.com/black-dashboard/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+  <!-- Chart JS -->
+  <script src="https://appsrv1-147a1.kxcdn.com/black-dashboard/js/plugins/chartjs.min.js"></script>
+  <!--  Notifications Plugin    -->
+  <script src="https://appsrv1-147a1.kxcdn.com/black-dashboard/js/plugins/bootstrap-notify.js"></script>
+  <!-- Control Center for Black Dashboard: parallax effects, scripts for the example pages etc -->
+  <script src="https://appsrv1-147a1.kxcdn.com/black-dashboard/js/black-dashboard.min.js?v=1.0.0"></script><!-- Black Dashboard DEMO methods, don't include it in your project! -->
+  <script src="https://appsrv1-147a1.kxcdn.com/black-dashboard/demo/demo.js"></script>
+
+
+
+  <script>
+    $(document).ready(function() {
+      $().ready(function() {
+        $sidebar = $('.sidebar');
+        $navbar = $('.navbar');
+        $main_panel = $('.main-panel');
+
+        $full_page = $('.full-page');
+
+        $sidebar_responsive = $('body > .navbar-collapse');
+        sidebar_mini_active = true;
+        white_color = false;
+
+        window_width = $(window).width();
+
+        fixed_plugin_open = $('.sidebar .sidebar-wrapper .nav li.active a p').html();
+
+
+
+        $('.fixed-plugin a').click(function(event) {
+          if ($(this).hasClass('switch-trigger')) {
+            if (event.stopPropagation) {
+              event.stopPropagation();
+            } else if (window.event) {
+              window.event.cancelBubble = true;
+            }
+          }
+        });
+
+        $('.fixed-plugin .background-color span').click(function() {
+          $(this).siblings().removeClass('active');
+          $(this).addClass('active');
+
+          var new_color = $(this).data('color');
+
+          if ($sidebar.length != 0) {
+            $sidebar.attr('data', new_color);
+          }
+
+          if ($main_panel.length != 0) {
+            $main_panel.attr('data', new_color);
+          }
+
+          if ($full_page.length != 0) {
+            $full_page.attr('filter-color', new_color);
+          }
+
+          if ($sidebar_responsive.length != 0) {
+            $sidebar_responsive.attr('data', new_color);
+          }
+        });
+
+        $('.switch-sidebar-mini input').on("switchChange.bootstrapSwitch", function() {
+          var $btn = $(this);
+
+          if (sidebar_mini_active == true) {
+            $('body').removeClass('sidebar-mini');
+            sidebar_mini_active = false;
+            blackDashboard.showSidebarMessage('Sidebar mini deactivated...');
+          } else {
+            $('body').addClass('sidebar-mini');
+            sidebar_mini_active = true;
+            blackDashboard.showSidebarMessage('Sidebar mini activated...');
+          }
+
+          // we simulate the window Resize so the charts will get updated in realtime.
+          var simulateWindowResize = setInterval(function() {
+            window.dispatchEvent(new Event('resize'));
+          }, 180);
+
+          // we stop the simulation of Window Resize after the animations are completed
+          setTimeout(function() {
+            clearInterval(simulateWindowResize);
+          }, 1000);
+        });
+
+        $('.switch-change-color input').on("switchChange.bootstrapSwitch", function() {
+          var $btn = $(this);
+
+          if (white_color == true) {
+
+            $('body').addClass('change-background');
+            setTimeout(function() {
+              $('body').removeClass('change-background');
+              $('body').removeClass('white-content');
+            }, 900);
+            white_color = false;
+          } else {
+
+            $('body').addClass('change-background');
+            setTimeout(function() {
+              $('body').removeClass('change-background');
+              $('body').addClass('white-content');
+            }, 900);
+
+            white_color = true;
+          }
+
+
+        });
+
+        $('.light-badge').click(function() {
+          $('body').addClass('white-content');
+        });
+
+        $('.dark-badge').click(function() {
+          $('body').removeClass('white-content');
+        });
+      });
+    });
+  </script>
+
+
+
+  <script>
+    $(document).ready(function() {
+      // Javascript method's body can be found in assets/js/demos.js
+      demo.initDashboardPageCharts();
+
+    });
+  </script>
+
+
+
+
+
+
+
+</div>
+</div>
+<title>{{titre}}</title>
+</body>
+{% endblock %}

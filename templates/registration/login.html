@@ -1,0 +1,84 @@
+
+<head>
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
+
+</head>
+{% block content %}
+
+  {% if form.errors %}
+    <p>Your username and password didn't match. Please try again.</p>
+  {% endif %}
+
+  {% if next %}
+    {% if user.is_authenticated %}
+      <p>Your account doesn't have access to this page. To proceed,
+      please login with an account that has access.</p>
+    {% else %}
+      <p>Please login to see this page.</p>
+    {% endif %}
+  {% endif %}
+<div class="card">
+  <div class="card-body">
+  <form method="post" action="{% url 'login' %}">
+    <div class="form-group">
+    {% csrf_token %}
+
+
+<!--      <div class="form-group">-->
+<!--      <tr>-->
+<!--        <label for="exampleInputEmail1">{{ form.username.label_tag }}</label>-->
+<!--&lt;!&ndash;        <td class="form-control" aria-describedby="emailHelp" placeholder="Enter Username">{{ form.username }}</td>&ndash;&gt;-->
+<!--        <input type="text" class="form-control" id="{{ form.username }}" aria-describedby="emailHelp" placeholder="Enter Username" >-->
+
+<!--      </tr>-->
+<!--      </div>-->
+<!--        <div class="form-group">-->
+
+<!--      <tr>-->
+
+<!--        <label for="exampleInputPassword1">{{ form.password.label_tag }}</label>-->
+<!--        <td>{{ form.password }}</td>-->
+<!--      </tr>-->
+<!--        </div>-->
+<!--          <button type="submit" class="btn btn-primary" value="login">Submit</button>-->
+<!--    <input type="hidden" name="next" value="{{ next }}" />-->
+<!--  </form>-->
+<!--      <div class="form-check">-->
+<!--          <label class="form-check-label">-->
+<!--              <input class="form-check-input" type="checkbox" value="">-->
+<!--              Option one is this-->
+<!--              <span class="form-check-sign">-->
+<!--                  <span class="check"></span>-->
+<!--              </span>-->
+<!--          </label>-->
+<!--      </div>-->
+<!--  </div>-->
+<!--</div>-->
+
+<div class="card">
+  <div class="card-body">
+    {% csrf_token %}
+      <form method="post" action="{% url 'login' %}">
+      <div class="form-group">
+        <label for="exampleInputEmail1">Username</label>
+        <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Enter Username" id="{{form.username}}
+
+      </div>
+      <div class="form-group">
+        <label for="exampleInputPassword1">Password</label>
+        <input type="password" class="form-control" placeholder="Password" id={{form.password}}
+
+
+      </div>
+
+      <button type="submit" class="btn btn-primary" value="login">Submit</button>
+        <input type="hidden" name="next" value="{{ next }}" />
+    </form>
+  </div>
+</div>
+
+  {# Assumes you setup the password_reset view in your URLconf #}
+  <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+
+{% endblock %}

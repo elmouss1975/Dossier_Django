@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<body>
+<table>
+    <thead>
+    <tr>
+        <th>N</th>
+        <th>temp</th>
+        <th>hum</th>
+        <th>date</th>
+    </thead>
+    <tbody>
+{% for i in tab %}
+    <tr>
+    <td>{{ i.id }}</td>
+    <td>{{ i.temp }}</td>
+    <td>{{ i.dt }}</td>
+{% endfor %}
+    </tbody>
+</table>
+</body>
+</html>
